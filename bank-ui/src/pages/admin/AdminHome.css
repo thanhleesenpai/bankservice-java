@@ -1,0 +1,24 @@
+/* Sửa CSS cho .admin-home */
+.admin-home {
+  display: flex; /* Bật Flexbox để sắp xếp các phần tử con */
+  height: 100vh;
+}
+
+/* Sửa CSS cho .main-content */
+.main-content {
+  /* Loại bỏ: margin-left: 220px; */
+  
+  flex-grow: 1; /* Cho phép main-content chiếm hết không gian còn lại */
+  margin-top: 50px;
+  padding: 20px;
+  background-color: #ecf0f1;
+  height: calc(100vh - 50px);
+  overflow-y: auto;
+  transition: all 0.3s ease; /* Thay đổi transition để hiệu ứng mượt hơn */
+}
+
+/* Thêm thuộc tính này cho main-content khi sidebar đóng */
+.main-content.expanded {
+  margin-left: 0;
+  width: 100%;
+}

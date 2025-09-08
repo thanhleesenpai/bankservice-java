@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  # Service cho MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bank_service
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  # Service cho Redis
+  redis:
+    image: redis:6.2-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  # Service cho ArtemisMQ
+  artemis:
+    image: apache/activemq-artemis:2.42.0
+    container_name: artemis
+    ports:
+      - "61616:61616"
+      - "8161:8161" # Cổng quản lý web Artemis
+    environment:
+      ARTEMIS_USERNAME: artemis
+      ARTEMIS_PASSWORD: artemis
+
+  # Service cho bank-service
+  bank-service:
+    build:
+      context: ./bank-service
+      dockerfile: Dockerfile
+    container_name: bank-service-container
+    ports:
+      - "8080:8080"
+    environment:
+      # Sử dụng tên service trong Docker Compose để giao tiếp
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/bank_service
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_ARTEMIS_BROKER_URL: tcp://artemis:61616
+      PAYMENT_SERVICE_URL: http://payment-service:8081
+    depends_on:
+      - mysql
+      - redis
+      - artemis
+
+  # Service cho payment-service
+  payment-service:
+    build:
+      context: ./payment-service
+      dockerfile: Dockerfile
+    container_name: payment-service-container
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_ARTEMIS_BROKER_URL: tcp://artemis:61616
+    depends_on:
+      - artemis
+
+  # Service cho notification-service
+  notification-service:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    container_name: notification-service-container
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_ARTEMIS_BROKER_URL: tcp://artemis:61616
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/bank_service
+    depends_on:
+      - mysql
+      - artemis
+  bank-ui:
+    build:
+      context: ./bank-ui
+      dockerfile: Dockerfile
+    container_name: bank-ui
+    ports:
+      - "80:80"
+    depends_on:
+      - bank-service
+volumes:
+  mysql_data:

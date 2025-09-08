@@ -1,0 +1,89 @@
+/* Thêm CSS cho .admin-home */
+.card-page {
+  display: flex; /* Bật Flexbox để sắp xếp các phần tử con */
+  height: 100vh; /* Đảm bảo chiều cao đầy đủ */
+}
+
+/* Sửa CSS cho .main-content */
+.main-content {
+  flex-grow: 1; /* Cho phép main-content chiếm hết không gian còn lại */
+  padding: 20px;
+  background-color: #f9fafb;
+  height: calc(100vh - 50px); /* Tùy chỉnh chiều cao nếu AppBar có chiều cao 50px */
+  overflow-y: auto;
+  transition: margin-left 0.3s ease;
+}
+
+.main-content h2 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.main-content input {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.main-content input:focus {
+  border-color: #007bff;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 10px 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #f5f5f5;
+  color: #555;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #eef5ff;
+}
+
+button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+  background-color: #007bff;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button.delete-btn {
+  background-color: #dc3545;
+}
+
+button.delete-btn:hover {
+  background-color: #b02a37;
+}
+
+select {
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: white;
+}

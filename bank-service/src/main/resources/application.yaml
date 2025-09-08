@@ -1,0 +1,44 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /bankservice
+spring:
+  datasource:
+    url: jdbc:mysql://host.docker.internal/bank_service
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  data:
+    redis:
+      host: host.docker.internal
+      port: 6379
+      timeout: 60000
+  artemis:
+    broker-url: tcp://artemis:61616
+    user: artemis
+    password: artemis
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: thanhleesenpai@gmail.com
+    password: znzygnculxpwssup
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+payment:
+  service:
+    url: http://payment-service-container:8081
